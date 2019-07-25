@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Where we're going to stash stuff we need. Change if desired
+APLUS="$HOME/APLUS"
+
+# One-time setup
+#
+# 1. Install required packages:
+sudo apt install aplus-fsf-dev xfonts-kapl rlwrap
+# aplus-fsf-dev pulls in all the rest of the A+ packages
+
+# 2. Make the bundled xterm resource available:
+mkdir -p "$APLUS"
+gzip -cd /usr/share/doc/aplus-fsf-doc/app-defaults/XTerm.gz > \
+    "$APLUS/XTerm"
+
+# 3a. Backup the current resource settings in case you 
+#     need to restore them later:
+xrdb -q > "$APLUS/backup_xres.$(date +%m%d%H%M)" 
+# Use timestamp to prevent overwriting previous backups
+
+# 3b. If it becomes necessary to restore the resource settings:
+#	xrdb < "$APLUS/backup_xres.########"
+
+# 4.  Verify that a 'latin1' locale is available:
+locale -a | egrep -q -- '8859-*1$' || echo Did not find valid locale
+locale -a | egrep -q -- '8859-*1$' || echo On Ubuntu uncomment one of *.iso88591 in
+locale -a | egrep -q -- '8859-*1$' || echo /ectc/locale.gen and run \"sudo locale-gen\"
+
+# =================================================================
+# Viewing the docs (example):
+# APLUS_LOCALE="en_US.ISO-8859-1"
+# LC_ALL="$APLUS_LOCALE" xterm -fa kapl -fs 16 \
+# 	-e less /usr/share/doc/aplus-fsf-doc/scripts/dio.doc
+# =================================================================
+

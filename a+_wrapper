@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Where we've stashed A+ XTerm resources
+APLUS="$HOME/APLUS"
+
+# I don't think this can be changed. A+ expects input
+# in this format.  
+APLUS_LOCALE="en_US.ISO-8859-1"
+
+export XAPPLRESDIR="$APLUS/"
+
+# This works! (tested on Debian 10 "Buster"  & Ubuntu 19.04 "Disco Dingo")
+# Full readline support (line-editing, history, etc!!)
+# Great for exploring A+, doing the tutorials
+LC_ALL="$APLUS_LOCALE" xterm  -fa kapl -fs 16  -e "rlwrap a+" &
+
+sleep 1
+disown -r
+
+# XXX: WIP! WIP! WIP!
+#
+# The following almost works, but currently symbol entry requires the
+# Shift key for unshifted symbols, therefore not all symbols are mapped.
+# Probably requires editing of the resource file hand-crafted for rxvt.
+#
+# env XUSERFILESEARCHPATH="$APLUS/URxvt" LANG="$APLUS_LOCALE" \
+#	rxvt -fn 'xft:kapl' -meta8 
+#
+# Note: "$APLUS/URxvt" was generated as follows:
+#     cd "$APLUS"; sed -re 's/XTerm/URxvt/g' XTerm > URxvt
+#
+# XXX: WIP! WIP! WIP!
